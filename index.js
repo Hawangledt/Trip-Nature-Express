@@ -2,6 +2,8 @@ const express = require("express")
 
 const app = express()
 
+app.use(express.json())
+
 app.get("/",function(req, res){
     res.sendFile(__dirname + "/public/index.html")
 })
@@ -40,6 +42,23 @@ app.get("/busca", (req, res) => {
     }
 
     res.json({ message: `Você pesquisou por: nome: ${nome} idade: ${idade} cpf: ${cpf}`})
+})
+
+let pessoas = []
+
+app.post("/pessoas", (req, res) => {
+    const { nome, idade, ativo } = req.body
+
+    let novaPessoa = {nome, idade, ativo}
+
+    pessoas.push(novaPessoa)
+
+    res.status(201).send(`Pessoa adicionada com sucesso: ${JSON.stringify(novaPessoa)}` );
+
+})
+
+app.get("/pessoas",(req, res) => {
+    res.json(pessoas)
 })
 
 
