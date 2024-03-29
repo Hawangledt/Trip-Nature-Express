@@ -8,6 +8,16 @@ let pessoas = [];
 // Adiciona um middleware para trabalhar com json nas reqs.
 app.use(express.json());
 
+const logHoraMiddleware = (req, res, next) => {
+    const horaAtual = new Date().toISOString();
+    console.log(
+      `[${horaAtual}] Nova solicitação recebida para: ${req.method} ${req.originalUrl}`
+      );
+    next(); // Chamar next() para passar a solicitação para o próximo middleware
+  };
+
+app.use(logHoraMiddleware())
+
 app.get('/', (req, res) => {
     res.json("Sucesso!");
 });
